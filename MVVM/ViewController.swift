@@ -47,6 +47,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell", for: indexPath) as! CustomTableViewCell
+        cell.selectionStyle = .none
         if let userData = userData {
             cell.configure(with: userData[indexPath.row])
         }
@@ -55,6 +56,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = DetailUserViewController()
+        vc.userData = userData?[indexPath.row]
         self.navigationController?.pushViewController(vc, animated: true)
     }
 

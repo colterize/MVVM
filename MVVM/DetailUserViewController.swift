@@ -9,21 +9,33 @@ import UIKit
 
 class DetailUserViewController: UIViewController {
 
+    @IBOutlet var userImage: UIImageView!
+    @IBOutlet var nameLabel: UILabel!
+    @IBOutlet var emailLabel: UILabel!
+
+    var userData: User?
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        userImage.backgroundColor = .lightGray
+        userImage.tintColor = .darkGray
+        userImage.contentMode = .scaleToFill
+        if let data = userData {
+            configureData(with: data)
+        }
     }
 
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func configureData(with data: User) {
+        nameLabel.text = "\(data.first_name) \(data.last_name)"
+        emailLabel.text = data.email
+        APIManager.shared.fetchImage(with: data.avatar) { result in
+            switch result {
+            case .success(let image):
+                self.userImage.image = UIImage(data: image)
+            case.failure(_):
+                self.userImage.image = UIImage(systemName: "person.fill")
+            }
+        }
     }
-    */
 
 }
