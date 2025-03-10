@@ -12,10 +12,12 @@ class ViewController: UIViewController, ViewModelOutput {
     @IBOutlet var tableView: UITableView!
 
     private var viewModel: ViewModel!
+    private var imageService: ImageService!
 
-    func configure(viewModel: ViewModel) {
+    func configure(viewModel: ViewModel, imageService: ImageService) {
         self.viewModel = viewModel
         self.viewModel.output = self
+        self.imageService = imageService
     }
     
     required init?(coder: NSCoder) {
@@ -56,15 +58,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell", for: indexPath) as! CustomTableViewCell
         cell.selectionStyle = .none
-        let imageService: ImageService = APIManager()
         let viewModel = UserCellViewModel(user: userList[indexPath.row], imageService: imageService)
         cell.configure(viewModel: viewModel)
-        cell.configureContent()
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let imageService : ImageService = APIManager()
         let viewModel = DetailUserViewModel(user: userList[indexPath.row], imageService: imageService)
         let vc = DetailUserViewController(viewModel: viewModel)
         self.navigationController?.pushViewController(vc, animated: true)

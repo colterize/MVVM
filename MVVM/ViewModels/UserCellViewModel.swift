@@ -25,7 +25,8 @@ class UserCellViewModel {
 
     func fetchData() {
         let name = "\(user.first_name) \(user.last_name)"
-        imageService.fetchImage(with: user.avatar) { result in
+        imageService.fetchImage(with: user.avatar) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let image):
                 self.output?.updateData(name: name, image: UIImage(data: image) ?? UIImage())

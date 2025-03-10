@@ -26,7 +26,10 @@ class APIManager: UserService, ImageService {
     }
 
     func fetchImage(with stringUrl: String, completion: @escaping (Result<Data, Error>) -> Void) {
-        let url = URL(string: stringUrl)!
+        guard let url = URL(string: stringUrl) else {
+            completion(.failure(NSError()))
+            return
+        }
 
         URLSession.shared.dataTask(with: url) { data, res, error in
             DispatchQueue.main.async {

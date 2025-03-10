@@ -17,6 +17,7 @@ class CustomTableViewCell: UITableViewCell, UserCellViewModelOutput {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        configureView()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -28,17 +29,13 @@ class CustomTableViewCell: UITableViewCell, UserCellViewModelOutput {
     func configure(viewModel: UserCellViewModel) {
         self.viewModel = viewModel
         self.viewModel.output = self
+        self.viewModel.fetchData()
     }
     
-    func configureContent() {
-        fetchData()
+    func configureView() {
         userImage.backgroundColor = .lightGray
         userImage.tintColor = .darkGray
         userImage.contentMode = .scaleToFill
-    }
-
-    private func fetchData() {
-        viewModel.fetchData()
     }
 
     // MARK: - UserCellViewModelOutput

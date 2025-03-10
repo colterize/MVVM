@@ -21,10 +21,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let viewController = storyboard.instantiateViewController(identifier: "ViewController") as! ViewController
 
-        let userService: UserService = APIManager()
-        let viewModel = ViewModel(userService: userService)
+        let service: (UserService & ImageService) = APIManager()
+        let viewModel = ViewModel(userService: service)
 
-        viewController.configure(viewModel: viewModel) // Inject dependency
+        viewController.configure(viewModel: viewModel, imageService: service) // Inject dependency
 
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = UINavigationController(rootViewController: viewController)
